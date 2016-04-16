@@ -24,7 +24,7 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
         internal override void Execute(EmacsCommandContext context)
         {
             // we can't use the repeating support because of the special behavior of UniversalArgument=0
-            if (context.Manager.UniversalArgument == 0)
+            if (!context.UniversalArgument.HasValue || context.Manager.UniversalArgument == 0)
             {
                 ITextCaret caret = context.TextView.Caret;
                 int caretPosition = caret.Position.BufferPosition.Position;
@@ -61,7 +61,7 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
                     }
                 }
             }
-            else if (!context.UniversalArgument.HasValue || context.UniversalArgument > 0)
+            else if (context.UniversalArgument > 0)
             {
                 int count = context.Manager.GetUniversalArgumentOrDefault(1);
                 if (count == 1)
